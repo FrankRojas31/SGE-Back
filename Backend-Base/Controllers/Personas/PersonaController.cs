@@ -2,6 +2,7 @@
 using Base.Application.Services.Interfaces.Contrato.Personas;
 using Base.Domain.DTOs.Personas;
 using Base.Domain.Entidades.Personas;
+using Base.Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Base.Controllers.Personas
@@ -14,6 +15,13 @@ namespace Backend_Base.Controllers.Personas
         public PersonaController(IPersonaServices personaServices) : base(personaServices)
         {
             _personaServices = personaServices;
+        }
+
+        [HttpGet("GetPersonaSinAlumno")]
+        public async Task<ActionResult<PersonaEntity>> GetPersonaSinAlumno()
+        {
+            ResponseHelper response = await _personaServices.GetPersonaSinRelacion();
+            return Ok(response);
         }
     }
 }

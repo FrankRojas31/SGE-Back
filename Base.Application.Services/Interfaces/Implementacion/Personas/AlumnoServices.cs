@@ -7,6 +7,7 @@ using Base.Domain.ViewModels;
 using Base.Domain.ViewModels.Personas;
 using Base.Infraestructura.Data.Repositorios.Contrato.Escuela;
 using Base.Infraestructura.Data.Repositorios.Contrato.Personas;
+using System.Linq.Expressions;
 
 namespace Base.Application.Services.Interfaces.Implementacion.Personas
 {
@@ -39,7 +40,6 @@ namespace Base.Application.Services.Interfaces.Implementacion.Personas
                         Id = alumno.Id,
                         NombreCompleto = $"{personaAlumno.Nombre} {personaAlumno.ApellidoPaterno} {personaAlumno.ApellidoMaterno}",
                         CursoEscolar = cursoEscolarAlumno.Nombre,
-                        Estado = alumno.EsBorrado,
                         FechaIngreso = alumno.FechaIngreso,
                         Matricula = alumno.Matricula,
                         IdPersona = alumno.IdPersona,
@@ -83,7 +83,6 @@ namespace Base.Application.Services.Interfaces.Implementacion.Personas
                         Id = alumno.Id,
                         NombreCompleto = $"{personaAlumno.Nombre} {personaAlumno.ApellidoPaterno} {personaAlumno.ApellidoMaterno}",
                         CursoEscolar = cursoEscolarAlumno.Nombre,
-                        Estado = alumno.EsBorrado,
                         FechaIngreso = alumno.FechaIngreso,
                         Matricula = alumno.Matricula,
                         IdPersona = alumno.IdPersona,
