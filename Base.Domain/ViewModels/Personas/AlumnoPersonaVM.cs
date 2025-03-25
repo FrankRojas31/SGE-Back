@@ -12,7 +12,6 @@ namespace Base.Domain.ViewModels.Personas
         public string NombreCompleto { get; set; }
         public DateTime FechaIngreso { get; set; }
         public int Matricula { get; set; }
-        public bool Estado { get; set; }
         public string CursoEscolar { get; set; }
         public int IdPersona { get; set; }
         public int IdCursoEscolar { get; set; }
