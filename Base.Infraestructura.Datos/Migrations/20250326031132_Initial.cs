@@ -185,9 +185,7 @@ namespace Base.Infraestructura.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdGrupo = table.Column<int>(type: "int", nullable: false),
                     IdPeriodo = table.Column<int>(type: "int", nullable: false),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

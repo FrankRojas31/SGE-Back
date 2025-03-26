@@ -120,9 +120,6 @@ namespace Base.Infraestructura.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("EsBorrado")
                         .HasColumnType("bit");
 
@@ -131,9 +128,6 @@ namespace Base.Infraestructura.Data.Migrations
 
                     b.Property<int>("IdPeriodo")
                         .HasColumnType("int");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
