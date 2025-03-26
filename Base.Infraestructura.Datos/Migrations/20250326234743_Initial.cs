@@ -26,6 +26,37 @@ namespace Base.Infraestructura.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RowVersion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    EstatusUsuario = table.Column<int>(type: "int", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tbl_CursosEscolares",
                 columns: table => new
                 {
@@ -127,177 +158,6 @@ namespace Base.Infraestructura.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tbl_MateriasGrupos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdMateria = table.Column<int>(type: "int", nullable: false),
-                    IdGrupo = table.Column<int>(type: "int", nullable: false),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tbl_MateriasGrupos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tbl_MateriasGrupos_Tbl_Grupos_IdGrupo",
-                        column: x => x.IdGrupo,
-                        principalTable: "Tbl_Grupos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tbl_MateriasGrupos_Tbl_Materias_IdMateria",
-                        column: x => x.IdMateria,
-                        principalTable: "Tbl_Materias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tbl_Unidades",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdMateria = table.Column<int>(type: "int", nullable: false),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tbl_Unidades", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tbl_Unidades_Tbl_Materias_IdMateria",
-                        column: x => x.IdMateria,
-                        principalTable: "Tbl_Materias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tbl_GruposPeriodos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdGrupo = table.Column<int>(type: "int", nullable: false),
-                    IdPeriodo = table.Column<int>(type: "int", nullable: false),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tbl_GruposPeriodos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tbl_GruposPeriodos_Tbl_Grupos_IdGrupo",
-                        column: x => x.IdGrupo,
-                        principalTable: "Tbl_Grupos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tbl_GruposPeriodos_Tbl_Periodos_IdPeriodo",
-                        column: x => x.IdPeriodo,
-                        principalTable: "Tbl_Periodos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RowVersion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    EstatusUsuario = table.Column<int>(type: "int", nullable: false),
-                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IdPersona = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Tbl_Personas_IdPersona",
-                        column: x => x.IdPersona,
-                        principalTable: "Tbl_Personas",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tbl_Alumnos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Matricula = table.Column<int>(type: "int", nullable: false),
-                    ContactoEmergencia = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NecesidadesEspeciales = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdPersona = table.Column<int>(type: "int", nullable: false),
-                    IdCursoEscolar = table.Column<int>(type: "int", nullable: false),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tbl_Alumnos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tbl_Alumnos_Tbl_CursosEscolares_IdCursoEscolar",
-                        column: x => x.IdCursoEscolar,
-                        principalTable: "Tbl_CursosEscolares",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tbl_Alumnos_Tbl_Personas_IdPersona",
-                        column: x => x.IdPersona,
-                        principalTable: "Tbl_Personas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tbl_Profesores",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NoEmpleado = table.Column<int>(type: "int", nullable: false),
-                    Especialidad = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GradoEstudios = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CedulaProfesional = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdPersona = table.Column<int>(type: "int", nullable: false),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tbl_Profesores", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tbl_Profesores_Tbl_Personas_IdPersona",
-                        column: x => x.IdPersona,
-                        principalTable: "Tbl_Personas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -383,6 +243,138 @@ namespace Base.Infraestructura.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tbl_MateriasGrupos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdMateria = table.Column<int>(type: "int", nullable: false),
+                    IdGrupo = table.Column<int>(type: "int", nullable: false),
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_MateriasGrupos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tbl_MateriasGrupos_Tbl_Grupos_IdGrupo",
+                        column: x => x.IdGrupo,
+                        principalTable: "Tbl_Grupos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tbl_MateriasGrupos_Tbl_Materias_IdMateria",
+                        column: x => x.IdMateria,
+                        principalTable: "Tbl_Materias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_Unidades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdMateria = table.Column<int>(type: "int", nullable: false),
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_Unidades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tbl_Unidades_Tbl_Materias_IdMateria",
+                        column: x => x.IdMateria,
+                        principalTable: "Tbl_Materias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_GruposPeriodos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdGrupo = table.Column<int>(type: "int", nullable: false),
+                    IdPeriodo = table.Column<int>(type: "int", nullable: false),
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_GruposPeriodos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tbl_GruposPeriodos_Tbl_Grupos_IdGrupo",
+                        column: x => x.IdGrupo,
+                        principalTable: "Tbl_Grupos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tbl_GruposPeriodos_Tbl_Periodos_IdPeriodo",
+                        column: x => x.IdPeriodo,
+                        principalTable: "Tbl_Periodos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_Alumnos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Matricula = table.Column<int>(type: "int", nullable: false),
+                    ContactoEmergencia = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NecesidadesEspeciales = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdPersona = table.Column<int>(type: "int", nullable: false),
+                    IdCursoEscolar = table.Column<int>(type: "int", nullable: false),
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_Alumnos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tbl_Alumnos_Tbl_CursosEscolares_IdCursoEscolar",
+                        column: x => x.IdCursoEscolar,
+                        principalTable: "Tbl_CursosEscolares",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tbl_Alumnos_Tbl_Personas_IdPersona",
+                        column: x => x.IdPersona,
+                        principalTable: "Tbl_Personas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_Profesores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NoEmpleado = table.Column<int>(type: "int", nullable: false),
+                    Especialidad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GradoEstudios = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CedulaProfesional = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdPersona = table.Column<int>(type: "int", nullable: false),
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_Profesores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tbl_Profesores_Tbl_Personas_IdPersona",
+                        column: x => x.IdPersona,
+                        principalTable: "Tbl_Personas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tbl_Calificaciones",
                 columns: table => new
                 {
@@ -419,9 +411,7 @@ namespace Base.Infraestructura.Data.Migrations
                     IdGrupoPeriodo = table.Column<int>(type: "int", nullable: false),
                     IdAlumno = table.Column<int>(type: "int", nullable: false),
                     GruposEntityId = table.Column<int>(type: "int", nullable: true),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -505,11 +495,6 @@ namespace Base.Infraestructura.Data.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_IdPersona",
-                table: "AspNetUsers",
-                column: "IdPersona");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",

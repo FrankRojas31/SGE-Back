@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Base.Infraestructura.Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20250326053149_Initial")]
+    [Migration("20250326234743_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -67,9 +67,6 @@ namespace Base.Infraestructura.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("EsBorrado")
                         .HasColumnType("bit");
 
@@ -81,9 +78,6 @@ namespace Base.Infraestructura.Data.Migrations
 
                     b.Property<int>("IdGrupoPeriodo")
                         .HasColumnType("int");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -155,9 +149,6 @@ namespace Base.Infraestructura.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("EsBorrado")
                         .HasColumnType("bit");
 
@@ -166,9 +157,6 @@ namespace Base.Infraestructura.Data.Migrations
 
                     b.Property<int>("IdMateria")
                         .HasColumnType("int");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -442,9 +430,6 @@ namespace Base.Infraestructura.Data.Migrations
                     b.Property<int>("EstatusUsuario")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdPersona")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -494,8 +479,6 @@ namespace Base.Infraestructura.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdPersona");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -777,15 +760,6 @@ namespace Base.Infraestructura.Data.Migrations
                         .HasForeignKey("IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Persona");
-                });
-
-            modelBuilder.Entity("Base.Domain.Entidades.Seguridad.ApplicationUser", b =>
-                {
-                    b.HasOne("Base.Domain.Entidades.Personas.PersonaEntity", "Persona")
-                        .WithMany()
-                        .HasForeignKey("IdPersona");
 
                     b.Navigation("Persona");
                 });

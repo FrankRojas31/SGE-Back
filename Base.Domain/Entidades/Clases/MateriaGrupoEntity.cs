@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Base.Domain.Entidades.Clases
 {
     [Table("Tbl_MateriasGrupos")]
-    public class MateriaGrupoEntity : NombreEntity
+    public class MateriaGrupoEntity : BaseEntity
     {
         [ForeignKey(nameof(Materia))]
         public int IdMateria { get; set; }

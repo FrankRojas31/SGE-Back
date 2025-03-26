@@ -16,10 +16,6 @@ namespace Base.Domain.Entidades.Seguridad
         //JWT
         public string RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
-
-        [ForeignKey(nameof(Persona))]
-        public int? IdPersona { get; set; }
-        public virtual PersonaEntity? Persona { get; set; }
     }
 
 }

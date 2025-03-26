@@ -25,6 +25,5 @@ namespace Base.Domain.DTO.Security
 		public string ConfirmPassword { get; set; } = string.Empty;
 		public string Rol { get; set; }
         public EstatusUsuario EstatusUsuario { get; set; }
-        public int? IdPersona { get; set; }
     }
 }
