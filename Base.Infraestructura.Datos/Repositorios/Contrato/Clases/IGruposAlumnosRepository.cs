@@ -9,5 +9,7 @@ namespace Base.Infraestructura.Data.Repositorios.Contrato.Clases
 {
     public interface IGruposAlumnosRepository : IBaseRepository<GruposAlumnosEntity>
     {
+        Task<List<GruposAlumnosEntity>> GetGrupoAlumnosEnPeriodo(int idPeriodo);
+        Task<List<GruposAlumnosEntity>> GetGrupoAlumnosEnPeriodoYGrupoId(int idPeriodo, int idGrupo);
     }
 }
