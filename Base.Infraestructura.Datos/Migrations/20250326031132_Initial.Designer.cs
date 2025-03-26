@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Base.Infraestructura.Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20250319060604_Initial")]
+    [Migration("20250326031132_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -123,9 +123,6 @@ namespace Base.Infraestructura.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("EsBorrado")
                         .HasColumnType("bit");
 
@@ -134,9 +131,6 @@ namespace Base.Infraestructura.Data.Migrations
 
                     b.Property<int>("IdPeriodo")
                         .HasColumnType("int");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

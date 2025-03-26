@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Base.Domain.Entidades.Clases
 {
     [Table("Tbl_GruposPeriodos")]
-    public class GruposPeriodosEntity : NombreEntity
+    public class GruposPeriodosEntity : BaseEntity
     {
         [ForeignKey(nameof(Grupo))]
         public int IdGrupo { get; set; }
