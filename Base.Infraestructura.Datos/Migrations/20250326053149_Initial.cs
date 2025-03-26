@@ -416,8 +416,9 @@ namespace Base.Infraestructura.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdGrupo = table.Column<int>(type: "int", nullable: false),
+                    IdGrupoPeriodo = table.Column<int>(type: "int", nullable: false),
                     IdAlumno = table.Column<int>(type: "int", nullable: false),
+                    GruposEntityId = table.Column<int>(type: "int", nullable: true),
                     EsBorrado = table.Column<bool>(type: "bit", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -432,11 +433,16 @@ namespace Base.Infraestructura.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tbl_GruposAlumnos_Tbl_Grupos_IdGrupo",
-                        column: x => x.IdGrupo,
-                        principalTable: "Tbl_Grupos",
+                        name: "FK_Tbl_GruposAlumnos_Tbl_GruposPeriodos_IdGrupoPeriodo",
+                        column: x => x.IdGrupoPeriodo,
+                        principalTable: "Tbl_GruposPeriodos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tbl_GruposAlumnos_Tbl_Grupos_GruposEntityId",
+                        column: x => x.GruposEntityId,
+                        principalTable: "Tbl_Grupos",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -543,14 +549,19 @@ namespace Base.Infraestructura.Data.Migrations
                 column: "IdProfesor");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tbl_GruposAlumnos_GruposEntityId",
+                table: "Tbl_GruposAlumnos",
+                column: "GruposEntityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tbl_GruposAlumnos_IdAlumno",
                 table: "Tbl_GruposAlumnos",
                 column: "IdAlumno");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tbl_GruposAlumnos_IdGrupo",
+                name: "IX_Tbl_GruposAlumnos_IdGrupoPeriodo",
                 table: "Tbl_GruposAlumnos",
-                column: "IdGrupo");
+                column: "IdGrupoPeriodo");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tbl_GruposPeriodos_IdGrupo",
@@ -611,9 +622,6 @@ namespace Base.Infraestructura.Data.Migrations
                 name: "Tbl_GruposAlumnos");
 
             migrationBuilder.DropTable(
-                name: "Tbl_GruposPeriodos");
-
-            migrationBuilder.DropTable(
                 name: "Tbl_MateriasGrupos");
 
             migrationBuilder.DropTable(
@@ -632,10 +640,7 @@ namespace Base.Infraestructura.Data.Migrations
                 name: "Tbl_Alumnos");
 
             migrationBuilder.DropTable(
-                name: "Tbl_Periodos");
-
-            migrationBuilder.DropTable(
-                name: "Tbl_Grupos");
+                name: "Tbl_GruposPeriodos");
 
             migrationBuilder.DropTable(
                 name: "Tbl_Materias");
@@ -645,6 +650,12 @@ namespace Base.Infraestructura.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tbl_Personas");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_Grupos");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_Periodos");
         }
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Base.Infraestructura.Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20250326031132_Initial")]
+    [Migration("20250326053149_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -73,10 +73,13 @@ namespace Base.Infraestructura.Data.Migrations
                     b.Property<bool>("EsBorrado")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("GruposEntityId")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdAlumno")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdGrupo")
+                    b.Property<int>("IdGrupoPeriodo")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
@@ -84,9 +87,11 @@ namespace Base.Infraestructura.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GruposEntityId");
+
                     b.HasIndex("IdAlumno");
 
-                    b.HasIndex("IdGrupo");
+                    b.HasIndex("IdGrupoPeriodo");
 
                     b.ToTable("Tbl_GruposAlumnos");
                 });
@@ -657,21 +662,25 @@ namespace Base.Infraestructura.Data.Migrations
 
             modelBuilder.Entity("Base.Domain.Entidades.Clases.GruposAlumnosEntity", b =>
                 {
+                    b.HasOne("Base.Domain.Entidades.Clases.GruposEntity", null)
+                        .WithMany("GruposAlumnos")
+                        .HasForeignKey("GruposEntityId");
+
                     b.HasOne("Base.Domain.Entidades.Personas.AlumnoEntity", "Alumno")
                         .WithMany("GruposAlumnos")
                         .HasForeignKey("IdAlumno")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Base.Domain.Entidades.Clases.GruposEntity", "Grupo")
-                        .WithMany("GruposAlumnos")
-                        .HasForeignKey("IdGrupo")
+                    b.HasOne("Base.Domain.Entidades.Clases.GruposPeriodosEntity", "GrupoPeriodo")
+                        .WithMany()
+                        .HasForeignKey("IdGrupoPeriodo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Alumno");
 
-                    b.Navigation("Grupo");
+                    b.Navigation("GrupoPeriodo");
                 });
 
             modelBuilder.Entity("Base.Domain.Entidades.Clases.GruposPeriodosEntity", b =>

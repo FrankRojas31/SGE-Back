@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Base.Domain.Entidades.Clases
 {
     [Table("Tbl_GruposAlumnos")]
-    public class GruposAlumnosEntity : NombreEntity
+    public class GruposAlumnosEntity : BaseEntity
     {
-        [ForeignKey(nameof(Grupo))]
-        public int IdGrupo { get; set; }
-        public virtual GruposEntity Grupo { get; set; }
+        [ForeignKey(nameof(GrupoPeriodo))]
+        public int IdGrupoPeriodo { get; set; }
+        public virtual GruposPeriodosEntity GrupoPeriodo { get; set; }
 
         [ForeignKey(nameof(Alumno))]
         public int IdAlumno { get; set; }
