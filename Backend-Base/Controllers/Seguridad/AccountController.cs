@@ -1,8 +1,10 @@
 ﻿using Base.Application.Service.Interfaces.Contracts.Seguridad;
 using Base.Domain.DTO.Security;
+using Base.Domain.Entidades.Seguridad;
 using Base.Domain.ViewModels.Seguridad;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Base.API.Controllers.Seguridad
 {
@@ -10,6 +12,24 @@ namespace Base.API.Controllers.Seguridad
     [ApiController]
     public class AccountController(IUserAccountService userAccountService) : ControllerBase
     {
+
+        [HttpPost("refresh")]
+        public async Task<ActionResult> Refresh([FromBody] RefreshTokenRequest request)
+        {
+            if (string.IsNullOrEmpty(request?.RefreshToken))
+                return BadRequest(new { message = "Refresh token is required" });
+
+            try
+            {
+                var tokens = await userAccountService.RefreshToken(request.RefreshToken);
+                return Ok(tokens);
+            }
+            catch (SecurityTokenException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserDTO userDTO)
         {

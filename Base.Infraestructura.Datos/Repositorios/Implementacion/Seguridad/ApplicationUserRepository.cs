@@ -20,24 +20,29 @@ namespace Base.Infraestructura.Data.Repositorios.Implementacion.Seguridad
 
         public async Task<string> GenerateRefreshToken()
         {
-            var token = "";
-            var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
+            const int maxAttempts = 5;
+            int attempts = 0;
+
+            while (attempts < maxAttempts)
             {
+                var randomNumber = new byte[32];
+                using var rng = RandomNumberGenerator.Create();
                 rng.GetBytes(randomNumber);
-                token = Convert.ToBase64String(randomNumber);
+                string token = Convert.ToBase64String(randomNumber);
 
-                //var esUnico = await _genericRepositoryApplicationUser.ExisteElemento(x => x.RefreshToken == token);
-                string query = @"SELECT * FROM [AspNetUsers] as p WHERE RefreshToken = @token";
-                var tokenUser = await _context.Database.GetDbConnection().QueryFirstOrDefaultAsync<ApplicationUser>(query, new { token });
-                if (tokenUser != null)
+                string query = "SELECT COUNT(*) FROM [AspNetUsers] WHERE RefreshToken = @token";
+                var count = await _context.Database.GetDbConnection()
+                    .QuerySingleAsync<int>(query, new { token });
+
+                if (count == 0)
                 {
-                    return await GenerateRefreshToken();
+                    return token;
                 }
+
+                attempts++;
             }
-            return token;
+
+            throw new InvalidOperationException("Unable to generate unique refresh token after maximum attempts");
         }
-
     }
-
 }
