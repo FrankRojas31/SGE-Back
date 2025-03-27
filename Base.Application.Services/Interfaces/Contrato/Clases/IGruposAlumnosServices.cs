@@ -9,5 +9,6 @@ namespace Base.Application.Services.Interfaces.Contrato.Clases
         Task<ResponseHelper> GetAlumnosSinGrupo();
         Task<ResponseHelper> GetAlumnosEnGrupo(int id);
         Task<ResponseHelper> PostAlumnoEnGrupo(int idGrupo, List<int> idsAlumnos);
+        Task<ResponseHelper> DeleteAlumnosEnGrupo(int idGrupo, List<int> idsAlumnos);
     }
 }

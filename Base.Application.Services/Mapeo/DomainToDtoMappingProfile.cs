@@ -19,7 +19,6 @@ namespace Base.Application.Services.Mapeo
             // Mapeo de Personas.
             this.CreateMap<AlumnoEntity, AlumnoEntityDTO>().ReverseMap();
             this.CreateMap<PersonaEntity, PersonaEntityDTO>().ReverseMap();
-            this.CreateMap<ProfesorEntity, ProfesorEntityDTO>().ReverseMap();
 
             // Mapeo de Escuela.
             this.CreateMap<CursoEscolarEntity, CursoEscolarEntityDTO>().ReverseMap();
@@ -27,7 +26,6 @@ namespace Base.Application.Services.Mapeo
             this.CreateMap<PeriodosEntity, PeriodosEntityDTO>().ReverseMap();
 
             // Mapeo de Clases.
-            this.CreateMap<ClasesEntity, ClasesEntityDTO>().ReverseMap();
             this.CreateMap<GruposAlumnosEntity, GruposAlumnosEntityDTO>().ReverseMap();
             this.CreateMap<GruposEntity, GruposEntityDTO>().ReverseMap();
             this.CreateMap<GruposPeriodosEntity, GruposPeriodosEntityDTO>().ReverseMap();

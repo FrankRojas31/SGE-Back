@@ -60,7 +60,6 @@ namespace Base.Application.Services.RegistroServicios
             // Servicios de Personas.
             services.AddScoped<IAlumnoServices, AlumnoServices>();
             services.AddScoped<IPersonaServices, PersonaServices>();
-            services.AddScoped<IProfesorServices, ProfesorServices>();
 
             // Servicios de Escuela.
             services.AddScoped<ICalificacionesServices, CalificacionesServices>();
@@ -68,7 +67,6 @@ namespace Base.Application.Services.RegistroServicios
             services.AddScoped<IPeriodosServices, PeriodosServices>();
 
             // Servicios de Clases.
-            services.AddScoped<IClasesServices, ClasesServices>();
             services.AddScoped<IGruposAlumnosServices, GruposAlumnosServices>();
             services.AddScoped<IGruposPeriodosServices, GruposPeriodosServices>();
             services.AddScoped<IMateriaGrupoServices, MateriaGrupoServices>();
@@ -86,7 +84,6 @@ namespace Base.Application.Services.RegistroServicios
             // Repositorios de Personas.
             services.AddScoped<IAlumnoRepository, AlumnoRepository>();
             services.AddScoped<IPersonaRepository, PersonaRepository>();
-            services.AddScoped<IProfesorRepository, ProfesorRepository>();
 
             // Repositorios de Escuela.
             services.AddScoped<ICalificacionesRepository, CalificacionesRepository>();
@@ -94,7 +91,6 @@ namespace Base.Application.Services.RegistroServicios
             services.AddScoped<IPeriodosRepository, PeriodosRepository>();
 
             // Repositorios de Clases.
-            services.AddScoped<IClasesRepository, ClasesRepository>();
             services.AddScoped<IGruposAlumnosRepository, GruposAlumnosRepository>();
             services.AddScoped<IGruposPeriodosRepository, GruposPeriodosRepository>();
             services.AddScoped<IMateriaGrupoRepository, MateriaGrupoRepository>();
