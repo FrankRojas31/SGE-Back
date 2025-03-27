@@ -2,6 +2,7 @@
 using Base.Application.Services.Interfaces.Contrato.Clases;
 using Base.Domain.DTOs.Clases;
 using Base.Domain.Entidades.Clases;
+using Base.Domain.ViewModels;
 using Base.Infraestructura.Data.Repositorios.Contrato;
 using Base.Infraestructura.Data.Repositorios.Contrato.Clases;
 using System;
@@ -19,5 +20,41 @@ namespace Base.Application.Services.Interfaces.Implementacion.Clases
         {
             _materiasRepository = materiasRepository;
         }
+
+        public async Task<ResponseHelper> GetUnidadesDeMateria(int id)
+        {
+            try
+            {
+                MateriasEntity materia = await _materiasRepository.GetSingleAsync(x => x.Id == id && x.EsBorrado == false);
+                
+                if(materia is not null)
+                {
+                    List<UnidadesEntity> unidadesDeMateria = await _materiasRepository.GetUnidadesDeGrupo(id);
+
+                    return new ResponseHelper
+                    {
+                        Success = true,
+                        Message = "¡Lista de Unidades del Grupo servida correctamente!",
+                        Data = unidadesDeMateria,
+                    };
+                } else
+                {
+                    return new ResponseHelper
+                    {
+                        Success = false,
+                        Message = "¡Cuidado esta materia no existe!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ResponseHelper
+                {
+                    Success = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
     }
 }

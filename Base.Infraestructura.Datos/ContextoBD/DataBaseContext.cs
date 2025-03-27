@@ -9,7 +9,6 @@ namespace Base.Infraestructura.Datos.ContextoBD
 {
     public class DataBaseContext(DbContextOptions<DataBaseContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
-        DbSet<ClasesEntity> Clases { get; set; }
         DbSet<GruposAlumnosEntity> GruposAlumnos { get; set; }
         DbSet<GruposEntity> Grupos { get; set; }
         DbSet<GruposPeriodosEntity> GruposPeriodos { get; set; }
@@ -20,6 +19,5 @@ namespace Base.Infraestructura.Datos.ContextoBD
         DbSet<PeriodosEntity> Periodos { get; set; }
         DbSet<AlumnoEntity> Alumno { get; set; }
         DbSet<PersonaEntity> Persona { get; set; }
-        DbSet<ProfesorEntity> Profesor { get; set; }
     }
 }

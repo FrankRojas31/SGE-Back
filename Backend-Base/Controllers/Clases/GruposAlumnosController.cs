@@ -38,5 +38,12 @@ namespace Backend_Base.Controllers.Clases
             ResponseHelper response = await _gruposAlumnosService.PostAlumnoEnGrupo(id, idsAlumnos);
             return Ok(response);
         }
+
+        [HttpDelete("DeleteAlumnosEnGrupo/{id}")]
+        public async Task<ActionResult> DeleteAlumnosEnGrupo(int id, [FromBody] List<int> idsAlumnos)
+        {
+            ResponseHelper response = await _gruposAlumnosService.DeleteAlumnosEnGrupo(id, idsAlumnos); 
+            return Ok(response);
+        }
     }
 }

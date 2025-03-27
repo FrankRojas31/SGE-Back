@@ -2,6 +2,7 @@
 using Base.Application.Services.Interfaces.Contrato.Clases;
 using Base.Domain.DTOs.Clases;
 using Base.Domain.Entidades.Clases;
+using Base.Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,13 @@ namespace Backend_Base.Controllers.Clases
         public MateriasController(IMateriasServices materiasServices) : base(materiasServices)
         {
             _materiasServices = materiasServices;
+        }
+
+        [HttpGet("GetUnidadesDeMateria/{id}")]
+        public async Task<ActionResult> GetUnidadesDeMateria(int id)
+        {
+            ResponseHelper response = await _materiasServices.GetUnidadesDeMateria(id);
+            return Ok(response);
         }
     }
 }

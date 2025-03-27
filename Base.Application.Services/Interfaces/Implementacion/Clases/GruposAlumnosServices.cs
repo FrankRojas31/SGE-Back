@@ -167,5 +167,50 @@ namespace Base.Application.Services.Interfaces.Implementacion.Clases
                 };
             }
         }
+
+        public async Task<ResponseHelper> DeleteAlumnosEnGrupo(int idGrupo, List<int> idsAlumnos)
+        {
+            try
+            {
+                PeriodosEntity periodo = await _periodosRepository.GetSingleAsync(x => x.EsBorrado == false && x.EstatusPeriodo == EstatusPeriodo.ACTIVO);
+                GruposEntity grupo = await _gruposRepository.GetSingleAsync(x => x.Id == idGrupo);
+                GruposPeriodosEntity grupoPeriodo = await _gruposPeriodosRepository.GetSingleAsync(x => x.EsBorrado == false && x.IdGrupo == grupo.Id && x.IdPeriodo == periodo.Id);
+                List<GruposAlumnosEntity> grupoAlumnos = await _gruposAlumnosRepository.GetGrupoAlumnosEnPeriodo(periodo.Id);
+
+                if (grupo is not null)
+                {
+                    foreach (int id in idsAlumnos)
+                    {
+                        if (grupoAlumnos.Any(x => x.IdAlumno == id))
+                        {
+                            GruposAlumnosEntity grupoAlumno = grupoAlumnos.FirstOrDefault(x => x.IdAlumno == id);
+                            await _gruposAlumnosRepository.RemoveAsync(grupoAlumno);
+                        }
+                    }
+
+                    return new ResponseHelper
+                    {
+                        Success = true,
+                        Message = "Alumnos eliminados del grupo correctamente."
+                    };
+                }
+                else
+                {
+                    return new ResponseHelper
+                    {
+                        Success = false,
+                        Message = "¡Cuidado, no existe el grupo a donde quieres ingresar al alumno!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ResponseHelper
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }
