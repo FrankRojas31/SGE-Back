@@ -29,7 +29,7 @@ namespace Base.Application.Services.Interfaces.Implementacion.Clases
                 
                 if(materia is not null)
                 {
-                    List<UnidadesEntity> unidadesDeMateria = await _materiasRepository.GetUnidadesDeGrupo(id);
+                    List<UnidadesEntity> unidadesDeMateria = await _materiasRepository.GetUnidadesDeMateria(id);
 
                     return new ResponseHelper
                     {

@@ -9,6 +9,6 @@ namespace Base.Infraestructura.Data.Repositorios.Contrato.Clases
 {
     public interface IMateriasRepository : IBaseRepository<MateriasEntity>
     {
-        Task<List<UnidadesEntity>> GetUnidadesDeGrupo(int id);
+        Task<List<UnidadesEntity>> GetUnidadesDeMateria(int id);
     }
 }

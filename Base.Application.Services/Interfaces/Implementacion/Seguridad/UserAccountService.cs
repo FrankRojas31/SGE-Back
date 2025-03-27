@@ -4,14 +4,67 @@ using Base.Domain.Entidades.Seguridad;
 using Base.Domain.ViewModels;
 using Base.Domain.ViewModels.Seguridad;
 using Base.Infraestructura.Data.Repositorios.Contrato.Seguridad;
+using Base.Infraestructura.Datos.ContextoBD;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using static Base.Common.Enumeraciones.Enums;
 
 namespace Base.Application.Services.Interfaces.Implementacion.Seguridad
 {
-    public class UserAccountService(IAccountRepository accountRepository, IApplicationUserRepository _repository, IConfiguration _config) : IUserAccountService
+    public class UserAccountService(IAccountRepository accountRepository, IApplicationUserRepository _repository, IConfiguration _config, UserManager<ApplicationUser> _userManager, DataBaseContext _database) : IUserAccountService
     {
+
+        public async Task<TokenModel> RefreshToken(string refreshToken)
+        {
+            if (string.IsNullOrEmpty(refreshToken))
+                throw new ArgumentNullException(nameof(refreshToken), "Refresh token cannot be null or empty");
+
+            var user = await _database.Users
+                .FirstOrDefaultAsync(x => x.RefreshToken == refreshToken)
+                ?? throw new SecurityTokenException("Invalid refresh token");
+
+            if (user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+                throw new SecurityTokenException("Refresh token has expired");
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var role = roles.FirstOrDefault() ?? "ADMIN";
+
+            var userSession = new UserSession(
+                Id: user.Id,
+                Name: user.UserName,
+                Email: user.Email,
+                Role: role
+            );
+
+            var newAccessToken = accountRepository.GenerateAccessToken(userSession);
+            var newRefreshToken = await _repository.GenerateRefreshToken();
+
+            using var transaction = await _database.Database.BeginTransactionAsync();
+            try
+            {
+                user.RefreshToken = newRefreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+                _database.Users.Update(user);
+                await _database.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
+            return new TokenModel
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken,
+                AccessTokenExpiration = DateTime.UtcNow.AddDays(1)
+            };
+        }
+
         public async Task<ResponseHelper> CreateAccount(UserDTO userDTO)
         {
             ResponseHelper response = new ResponseHelper();
@@ -176,6 +229,7 @@ namespace Base.Application.Services.Interfaces.Implementacion.Seguridad
                     Email = getUser.Email,
                     AccessToken = accessToken,
                     RefreshToken = refreshToken,
+                    AccessTokenExpiration = DateTime.UtcNow.AddDays(1),
                     Role = getUserRole.First()
                 };
                 response.Success = true;

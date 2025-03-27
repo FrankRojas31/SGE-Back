@@ -16,10 +16,10 @@ namespace Base.Infraestructura.Data.Repositorios.Implementacion.Clases
             _context = context;
         }
 
-        public async Task<List<UnidadesEntity>> GetUnidadesDeGrupo(int id)
+        public async Task<List<UnidadesEntity>> GetUnidadesDeMateria(int id)
         {
             string query = @"
-            SELECT * FROM Tbl_Unidades uni
+            SELECT uni.* FROM Tbl_Unidades uni
 	            INNER JOIN Tbl_Materias ma ON uni.IdMateria = ma.Id
 	                WHERE 
 		                ma.Id = @id

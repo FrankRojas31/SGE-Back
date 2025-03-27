@@ -1,4 +1,5 @@
 ﻿using Base.Domain.DTO.Security;
+using Base.Domain.Entidades.Seguridad;
 using Base.Domain.ViewModels;
 using Base.Domain.ViewModels.Seguridad;
 
@@ -22,5 +23,6 @@ namespace Base.Application.Service.Interfaces.Contracts.Seguridad
         Task<ResponseHelper> ChangePassword(ChangePasswordViewModel vm);
         Task<ResponseHelper> LoginAccount(LoginDTO loginDTO);
         Task<ResponseHelper> DeleteUser(string id);
+        Task<TokenModel> RefreshToken(string refreshToken);
     }
 }
