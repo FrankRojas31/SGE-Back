@@ -1,7 +1,9 @@
-﻿using Base.Infraestructura.Datos.ContextoBD;
+﻿using Base.Domain.Entidades.Core;
+using Base.Infraestructura.Datos.ContextoBD;
 using Dapper;
 using ExpressionExtensionSQL;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -63,6 +65,22 @@ namespace Base.Infraestructura.Data.Repositories.Implementation
             var sql = $"INSERT INTO {tableName} ({columnNames}) VALUES ({parameterNames}); SELECT CAST(SCOPE_IDENTITY() AS INT)";
             var idRow = await Context.Database.GetDbConnection().QuerySingleAsync<int>(sql, entity);
 
+            AuditChange audit = new AuditChange()
+            {
+                Action = "INSERT",
+                TableName = tableName,
+                OldValue = "",
+                NewValue = JsonConvert.SerializeObject(entity),
+                User = this.ObtenerIdUsario(),
+                Role = this.ObtenerRol(),
+                IPAddress = "",
+                RowVersion = DateTime.Now,
+                EsBorrado = false,
+                IdEntity = idRow
+            };
+
+            var result = await AuditTable(audit);
+
             return idRow;
         }
 
@@ -80,6 +98,25 @@ namespace Base.Infraestructura.Data.Repositories.Implementation
             var sql = $"UPDATE {tableName} SET {string.Join(", ", updateColumns)} WHERE Id = @Id";
             var result = await Context.Database.GetDbConnection().ExecuteAsync(sql, entity);
 
+            if (result != 0 && entityOld != null)
+            {
+                AuditChange audit = new AuditChange()
+                {
+                    Action = "UPDATE",
+                    TableName = tableName,
+                    OldValue = JsonConvert.SerializeObject(entityOld),
+                    NewValue = JsonConvert.SerializeObject(entity),
+                    User = this.ObtenerIdUsario(),
+                    Role = this.ObtenerRol(),
+                    IPAddress = "",
+                    RowVersion = DateTime.Now,
+                    EsBorrado = false,
+                    IdEntity = (int)entityOld.GetType().GetProperty("Id").GetValue(entity)
+                };
+
+                var resultAudit = await AuditTable(audit);
+            }
+
             return result;
         }
 
@@ -94,6 +131,24 @@ namespace Base.Infraestructura.Data.Repositories.Implementation
 
 
             var result = await Context.Database.GetDbConnection().ExecuteAsync(sql, entity);
+            if (result != 0)
+            {
+                AuditChange audit = new AuditChange()
+                {
+                    Action = "DELETE",
+                    TableName = tableName,
+                    OldValue = JsonConvert.SerializeObject(entity),
+                    NewValue = string.Empty,
+                    User = this.ObtenerIdUsario(),
+                    Role = this.ObtenerRol(),
+                    IPAddress = "",
+                    RowVersion = DateTime.Now,
+                    EsBorrado = false,
+                    IdEntity = (int)entity.GetType().GetProperty("Id").GetValue(entity)
+                };
+
+                var resultAudit = await AuditTable(audit);
+            }
 
             return result;
         }
@@ -109,6 +164,25 @@ namespace Base.Infraestructura.Data.Repositories.Implementation
             var sql = $"UPDATE {tableName} SET EsBorrado  = 1 WHERE Id = @Id";
            
             var result = await Context.Database.GetDbConnection().ExecuteAsync(sql, new { id });
+
+            if (result != 0)
+            {
+                AuditChange audit = new AuditChange()
+                {
+                    Action = "DELETE",
+                    TableName = tableName,
+                    OldValue = string.Empty,
+                    NewValue = string.Empty,
+                    User = this.ObtenerIdUsario(),
+                    Role = this.ObtenerRol(),
+                    IPAddress = "",
+                    RowVersion = DateTime.Now,
+                    EsBorrado = false,
+                    IdEntity = id
+                };
+
+                var resultAudit = await AuditTable(audit);
+            }
 
             return result;
         }
@@ -308,6 +382,37 @@ namespace Base.Infraestructura.Data.Repositories.Implementation
             }
 
             return entities.Count();
+        }
+
+        public async Task<int> AuditTable(AuditChange audit)
+        {
+            var sql = @"INSERT INTO [dbo].[Tbl_AuditChanges]
+                                   ([TableName]
+                                   ,[OldValue]
+                                   ,[NewValue]
+                                   ,[User]
+                                   ,[Role]
+                                   ,[IPAddress]
+                                   ,[RowVersion]
+                                   ,[EsBorrado]
+                                   ,[IdEntity]
+                                   ,[Action])
+                             VALUES
+                                   (@TableName
+                                   ,@OldValue
+                                   ,@NewValue
+                                   ,@User
+                                   ,@Role
+                                   ,@IPAddress
+                                   ,@RowVersion
+                                   ,@EsBorrado
+                                   ,@IdEntity
+                                   ,@Action)";
+
+
+            var result = await Context.Database.GetDbConnection().QueryAsync<int>(sql, audit);
+
+            return result.FirstOrDefault();
         }
     }
 }

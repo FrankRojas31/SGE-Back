@@ -3,6 +3,7 @@ using Base.Application.Service.Interfaces.Contracts.Seguridad;
 using Base.Application.Services.Interfaces.Contrato.Clases;
 using Base.Application.Services.Interfaces.Contrato.Escuela;
 using Base.Application.Services.Interfaces.Contrato.Personas;
+using Base.Application.Services.Interfaces.Contrato.Seguridad;
 using Base.Application.Services.Interfaces.Implementacion.Clases;
 using Base.Application.Services.Interfaces.Implementacion.Escuela;
 using Base.Application.Services.Interfaces.Implementacion.Personas;
@@ -73,6 +74,9 @@ namespace Base.Application.Services.RegistroServicios
             services.AddScoped<IGruposServices, GruposServices>();
             services.AddScoped<IMateriasServices, MateriasServices>();
             services.AddScoped<IUnidadesServices, UnidadesServices>();
+
+            // Servicios de Errors Logs
+            services.AddScoped<IErrorsLogsServices, ErrorsLogsServices>();
         }
 
         private static void AddRepository(IServiceCollection services)
@@ -97,6 +101,9 @@ namespace Base.Application.Services.RegistroServicios
             services.AddScoped<IGruposRepository, GruposRepository>();
             services.AddScoped<IMateriasRepository, MateriasRepository>();
             services.AddScoped<IUnidadesRepository, UnidadesRepository>();
+
+            // Repositorios de Errores.
+            services.AddScoped<IErrorsLogRepository, ErrorsLogRepository>();
         }
     }
 }

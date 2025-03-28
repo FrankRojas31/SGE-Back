@@ -7,5 +7,7 @@ namespace Base.Application.Services.Interfaces.Contrato.Escuela
     public interface IPeriodosServices : IServiceBase<PeriodosEntity, PeriodosEntityDTO>
     {
         Task<ResponseHelper> GetPeriodoActivo();
+        Task<ResponseHelper> PostPeriodo(PeriodosEntityDTO periodos);
+        Task<ResponseHelper> PutPeriodo(PeriodosEntityDTO periodos);
     }
 }
