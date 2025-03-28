@@ -1,10 +1,8 @@
 ﻿using Base.API.Controllers;
 using Base.Application.Services.Interfaces.Contrato.Escuela;
 using Base.Domain.DTOs.Escuela;
-using Base.Domain.DTOs.Personas;
 using Base.Domain.Entidades.Escuela;
 using Base.Domain.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Base.Controllers.Escuela
@@ -23,6 +21,20 @@ namespace Backend_Base.Controllers.Escuela
         public async Task<ActionResult<PeriodosEntity>> GetPeriodoActivo()
         {
             ResponseHelper response = await _periodosServices.GetPeriodoActivo();
+            return Ok(response);
+        }
+
+        [HttpPost("PostPeriodo")]
+        public async Task<ActionResult> PostPeriodo(PeriodosEntityDTO periodo)
+        {
+            ResponseHelper response = await _periodosServices.PostPeriodo(periodo);
+            return Ok(response);
+        }
+
+        [HttpPut("PutPeriodo")]
+        public async Task<ActionResult> PutPeriodo(PeriodosEntityDTO periodo)
+        {
+            ResponseHelper response = await _periodosServices.PutPeriodo(periodo);
             return Ok(response);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Base.Domain.Entidades.Clases;
+using Base.Domain.Entidades.Core;
 using Base.Domain.Entidades.Escuela;
 using Base.Domain.Entidades.Personas;
 using Base.Domain.Entidades.Seguridad;
@@ -19,5 +20,7 @@ namespace Base.Infraestructura.Datos.ContextoBD
         DbSet<PeriodosEntity> Periodos { get; set; }
         DbSet<AlumnoEntity> Alumno { get; set; }
         DbSet<PersonaEntity> Persona { get; set; }
+        DbSet<AuditChange> Auditoria { get; set; }
+        DbSet<ErrorLogs> ErrorLogs { get; set; }
     }
 }

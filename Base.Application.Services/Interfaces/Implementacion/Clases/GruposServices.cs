@@ -27,9 +27,18 @@ namespace Base.Application.Services.Interfaces.Implementacion.Clases
             try
             {
                 PeriodosEntity periodo = await _periodosRepository.GetSingleAsync(x => x.EsBorrado == false && x.EstatusPeriodo == EstatusPeriodo.ACTIVO);
-                List<GruposEntity> grupos = await _gruposRepository.GetAllAsync(x => x.EsBorrado == false);
-                List<GruposPeriodosEntity> gruposPeriodo = await _gruposPeriodosRepository.GetAllAsync(x => x.EsBorrado == false);
                 List<GruposEntity> listaGrupos = [];
+
+                if (periodo is null)
+                    return new ResponseHelper
+                    {
+                        Success = true,
+                        Message = "¡Lista de Grupos servida Correctamente!",
+                        Data = listaGrupos
+                    };
+
+                List<GruposEntity> grupos = await _gruposRepository.GetAllAsync(x => x.EsBorrado == false);
+                List<GruposPeriodosEntity> gruposPeriodo = await _gruposPeriodosRepository.GetAllAsync(x => x.EsBorrado == false && x.IdPeriodo == periodo.Id);
 
                 foreach (GruposEntity grupo in grupos)
                     if (gruposPeriodo.Exists(x => x.IdGrupo == grupo.Id))

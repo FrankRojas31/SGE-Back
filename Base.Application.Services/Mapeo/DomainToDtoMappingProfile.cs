@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Base.Domain.DTO.Core;
 using Base.Domain.DTOs.Clases;
+using Base.Domain.DTOs.Core;
 using Base.Domain.DTOs.Escuela;
 using Base.Domain.DTOs.Personas;
 using Base.Domain.Entidades.Clases;
@@ -32,6 +33,9 @@ namespace Base.Application.Services.Mapeo
             this.CreateMap<MateriaGrupoEntity, MateriaGrupoEntityDTO>().ReverseMap();
             this.CreateMap<MateriasEntity, MateriasEntityDTO>().ReverseMap();
             this.CreateMap<UnidadesEntity, UnidadesEntityDTO>().ReverseMap();
+
+            // Mapeo de Errores.
+            this.CreateMap<ErrorLogs, ErrorLogsDTO>().ReverseMap();
         }
     }
 }
