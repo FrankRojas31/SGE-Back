@@ -7,6 +7,6 @@ namespace Base.Application.Services.Interfaces.Contrato.Clases
     public interface IGruposServices : IServiceBase<GruposEntity, GruposEntityDTO>
     {
         Task<ResponseHelper> PostGrupoEnPeriodo(GruposEntityDTO grupo);
-        Task<ResponseHelper> GetGruposEnPeriodo();
+        Task<ResponseHelper> GetGruposEnPeriodo(string idUsuario);
     }
 }

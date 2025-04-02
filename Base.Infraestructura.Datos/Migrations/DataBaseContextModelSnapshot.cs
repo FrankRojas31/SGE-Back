@@ -69,10 +69,15 @@ namespace Base.Infraestructura.Data.Migrations
                     b.Property<bool>("EsBorrado")
                         .HasColumnType("bit");
 
+                    b.Property<string>("IdUsuario")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("Tbl_Grupos");
                 });
@@ -241,8 +246,8 @@ namespace Base.Infraestructura.Data.Migrations
                     b.Property<bool>("EsBorrado")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("int");
+                    b.Property<string>("IdUsuario")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -642,6 +647,15 @@ namespace Base.Infraestructura.Data.Migrations
                     b.Navigation("Alumno");
 
                     b.Navigation("GrupoPeriodo");
+                });
+
+            modelBuilder.Entity("Base.Domain.Entidades.Clases.GruposEntity", b =>
+                {
+                    b.HasOne("Base.Domain.Entidades.Seguridad.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("IdUsuario");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Base.Domain.Entidades.Clases.GruposPeriodosEntity", b =>

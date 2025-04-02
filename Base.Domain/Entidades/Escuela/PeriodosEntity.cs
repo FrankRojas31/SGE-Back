@@ -1,5 +1,6 @@
 ﻿using Base.Domain.Entidades.Clases;
 using Base.Domain.Entidades.Core;
+using Base.Domain.Entidades.Seguridad;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Base.Common.Enumeraciones.Enums;
 

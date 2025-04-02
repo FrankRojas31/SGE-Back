@@ -4,10 +4,12 @@ using Base.Domain.DTOs.Clases;
 using Base.Domain.Entidades.Clases;
 using Base.Domain.ViewModels;
 using Base.Domain.ViewModels.Personas;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Base.Controllers.Clases
 {
+    [Authorize(Roles = "ADMIN, SERVICIOS ESCOLARES")]
     [Route("api/[controller]")]
     [ApiController]
     public class GruposAlumnosController : APIControllerBase<GruposAlumnosEntity, GruposAlumnosEntityDTO>

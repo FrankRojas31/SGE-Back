@@ -210,6 +210,7 @@ namespace Base.Infraestructura.Data.Repositorios.Implementacion.Seguridad
 
         public string GenerateAccessToken(UserSession user)
         {
+            Console.WriteLine("Key usada para generar: " + config["Jwt:Key"]);
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured")));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var userClaims = new[]

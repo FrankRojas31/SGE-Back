@@ -1,4 +1,5 @@
 ﻿using Base.Domain.Entidades.Core;
+using Base.Domain.Entidades.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +12,5 @@ namespace Base.Domain.Entidades.Escuela
     [Table("Tbl_CursosEscolares")]
     public class CursoEscolarEntity : NombreEntity
     {
-
     }
 }
