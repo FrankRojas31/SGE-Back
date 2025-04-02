@@ -99,7 +99,7 @@ namespace Base.Infraestructura.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Error = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EsBorrado = table.Column<bool>(type: "bit", nullable: false)
@@ -107,21 +107,6 @@ namespace Base.Infraestructura.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tbl_ErrorLogs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tbl_Grupos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tbl_Grupos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -281,30 +266,24 @@ namespace Base.Infraestructura.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tbl_MateriasGrupos",
+                name: "Tbl_Grupos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdMateria = table.Column<int>(type: "int", nullable: false),
-                    IdGrupo = table.Column<int>(type: "int", nullable: false),
-                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
+                    IdUsuario = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tbl_MateriasGrupos", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_Grupos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tbl_MateriasGrupos_Tbl_Grupos_IdGrupo",
-                        column: x => x.IdGrupo,
-                        principalTable: "Tbl_Grupos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tbl_MateriasGrupos_Tbl_Materias_IdMateria",
-                        column: x => x.IdMateria,
-                        principalTable: "Tbl_Materias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Tbl_Grupos_AspNetUsers_IdUsuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -325,6 +304,37 @@ namespace Base.Infraestructura.Data.Migrations
                         name: "FK_Tbl_Unidades_Tbl_Materias_IdMateria",
                         column: x => x.IdMateria,
                         principalTable: "Tbl_Materias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_Alumnos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Matricula = table.Column<int>(type: "int", nullable: false),
+                    ContactoEmergencia = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NecesidadesEspeciales = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdPersona = table.Column<int>(type: "int", nullable: false),
+                    IdCursoEscolar = table.Column<int>(type: "int", nullable: false),
+                    EsBorrado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_Alumnos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tbl_Alumnos_Tbl_CursosEscolares_IdCursoEscolar",
+                        column: x => x.IdCursoEscolar,
+                        principalTable: "Tbl_CursosEscolares",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tbl_Alumnos_Tbl_Personas_IdPersona",
+                        column: x => x.IdPersona,
+                        principalTable: "Tbl_Personas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -357,32 +367,28 @@ namespace Base.Infraestructura.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tbl_Alumnos",
+                name: "Tbl_MateriasGrupos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Matricula = table.Column<int>(type: "int", nullable: false),
-                    ContactoEmergencia = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NecesidadesEspeciales = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdPersona = table.Column<int>(type: "int", nullable: false),
-                    IdCursoEscolar = table.Column<int>(type: "int", nullable: false),
+                    IdMateria = table.Column<int>(type: "int", nullable: false),
+                    IdGrupo = table.Column<int>(type: "int", nullable: false),
                     EsBorrado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tbl_Alumnos", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_MateriasGrupos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tbl_Alumnos_Tbl_CursosEscolares_IdCursoEscolar",
-                        column: x => x.IdCursoEscolar,
-                        principalTable: "Tbl_CursosEscolares",
+                        name: "FK_Tbl_MateriasGrupos_Tbl_Grupos_IdGrupo",
+                        column: x => x.IdGrupo,
+                        principalTable: "Tbl_Grupos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tbl_Alumnos_Tbl_Personas_IdPersona",
-                        column: x => x.IdPersona,
-                        principalTable: "Tbl_Personas",
+                        name: "FK_Tbl_MateriasGrupos_Tbl_Materias_IdMateria",
+                        column: x => x.IdMateria,
+                        principalTable: "Tbl_Materias",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -508,6 +514,11 @@ namespace Base.Infraestructura.Data.Migrations
                 column: "IdUnidad");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tbl_Grupos_IdUsuario",
+                table: "Tbl_Grupos",
+                column: "IdUsuario");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tbl_GruposAlumnos_GruposEntityId",
                 table: "Tbl_GruposAlumnos",
                 column: "GruposEntityId");
@@ -585,9 +596,6 @@ namespace Base.Infraestructura.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Tbl_Unidades");
 
             migrationBuilder.DropTable(
@@ -610,6 +618,9 @@ namespace Base.Infraestructura.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tbl_Periodos");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

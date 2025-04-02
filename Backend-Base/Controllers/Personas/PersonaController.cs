@@ -3,10 +3,12 @@ using Base.Application.Services.Interfaces.Contrato.Personas;
 using Base.Domain.DTOs.Personas;
 using Base.Domain.Entidades.Personas;
 using Base.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Base.Controllers.Personas
 {
+    [Authorize(Roles ="ADMIN, SERVICIOS ESCOLARES")]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonaController : APIControllerBase<PersonaEntity, PersonaEntityDTO>

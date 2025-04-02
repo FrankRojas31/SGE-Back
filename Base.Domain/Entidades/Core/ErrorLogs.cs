@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Base.Domain.Entidades.Seguridad;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Base.Domain.Entidades.Core
     [Table("Tbl_ErrorLogs")]
     public class ErrorLogs : BaseEntity
     {
-        public int IdUsuario { get; set; }
+        public string? IdUsuario { get; set; }
         public string Error { get; set; }
         public DateTime Timestamp { get; set; }
     }

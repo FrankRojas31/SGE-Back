@@ -25,7 +25,7 @@ namespace Base.Application.Services.Interfaces.Implementacion.Escuela
         {
             try
             {
-                PeriodosEntity response = await _periodosRepository.GetSingleAsync(x => x.EsBorrado == false && x.EstatusPeriodo == Common.Enumeraciones.Enums.EstatusPeriodo.ACTIVO);
+                PeriodosEntity response = await _periodosRepository.GetSingleAsync(x => x.EsBorrado == false && x.EstatusPeriodo == EstatusPeriodo.ACTIVO);
 
                 return new ResponseHelper
                 {
@@ -62,7 +62,7 @@ namespace Base.Application.Services.Interfaces.Implementacion.Escuela
                     Descripcion = periodos.Descripcion,
                     FechaInicio = periodos.FechaInicio,
                     FechaFin = periodos.FechaFin,
-                    EstatusPeriodo = periodos.EstatusPeriodo
+                    EstatusPeriodo = periodos.EstatusPeriodo,
                 };
 
                 int response = await _periodosRepository.InsertAsync(periodoNew);

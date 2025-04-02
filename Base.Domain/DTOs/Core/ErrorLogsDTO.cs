@@ -9,7 +9,7 @@ namespace Base.Domain.DTOs.Core
 {
     public class ErrorLogsDTO : BaseDTO
     {
-        public int IdUsuario { get; set; }
+        public string? IdUsuario { get; set; }
         public string Error { get; set; }
         public DateTime Timestamp { get; set; }
     }

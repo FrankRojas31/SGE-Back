@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Base.Application.Service.Interfaces.Contracts.Seguridad;
+using Base.Application.Services.Interfaces.Contrato;
 using Base.Application.Services.Interfaces.Contrato.Clases;
 using Base.Application.Services.Interfaces.Contrato.Escuela;
 using Base.Application.Services.Interfaces.Contrato.Personas;
 using Base.Application.Services.Interfaces.Contrato.Seguridad;
+using Base.Application.Services.Interfaces.Implementacion;
 using Base.Application.Services.Interfaces.Implementacion.Clases;
 using Base.Application.Services.Interfaces.Implementacion.Escuela;
 using Base.Application.Services.Interfaces.Implementacion.Personas;
@@ -77,6 +79,9 @@ namespace Base.Application.Services.RegistroServicios
 
             // Servicios de Errors Logs
             services.AddScoped<IErrorsLogsServices, ErrorsLogsServices>();
+
+            // Servicio de Seeder.
+            services.AddScoped<ISeedersServices, SeedersServices>();
         }
 
         private static void AddRepository(IServiceCollection services)

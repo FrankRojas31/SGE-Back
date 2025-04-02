@@ -3,10 +3,12 @@ using Base.Application.Services.Interfaces.Contrato.Escuela;
 using Base.Domain.DTOs.Escuela;
 using Base.Domain.Entidades.Escuela;
 using Base.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Base.Controllers.Escuela
 {
+    [Authorize(Roles = "ADMIN, SERVICIOS ESCOLARES")]
     [Route("api/[controller]")]
     [ApiController]
     public class PeriodosController : APIControllerBase<PeriodosEntity, PeriodosEntityDTO>

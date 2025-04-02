@@ -4,6 +4,5 @@ namespace Base.Domain.DTOs.Escuela
 {
     public class CursoEscolarEntityDTO : NombreDTO
     {
-
     }
 }

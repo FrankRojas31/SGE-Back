@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using Base.Infraestructura.Datos.ContextoBD;
 using Base.Application.Services.RegistroServicios;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<DataBaseContext>()
     .AddSignInManager()
     .AddRoles<IdentityRole>();
-
 
 builder.Services.AddAuthentication(options =>
 {
@@ -37,7 +37,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.AddCors(options =>
 {
@@ -61,9 +65,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
-
-    options.CustomSchemaIds(type => type.FullName);
-
+    options.CustomSchemaIds(type => type.Name);
 });
 
 builder.Services.AddHttpContextAccessor();
@@ -91,10 +93,9 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 
 app.UseCors("AllowOrigins");
-
-app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
