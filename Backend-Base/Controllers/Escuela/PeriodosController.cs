@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Base.Controllers.Escuela
 {
-    [Authorize(Roles = "ADMIN, SERVICIOS ESCOLARES")]
+    [Authorize(Roles = "ADMIN, SERVICIOS ESCOLARES, PROFESOR")]
     [Route("api/[controller]")]
     [ApiController]
     public class PeriodosController : APIControllerBase<PeriodosEntity, PeriodosEntityDTO>
