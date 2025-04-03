@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Base.Controllers.Clases
 {
-    [Authorize(Roles = "ADMIN, SERVICIOS ESCOLARES")]
+    [Authorize(Roles = "ADMIN, SERVICIOS ESCOLARES, PROFESOR")]
     [Route("api/[controller]")]
     [ApiController]
     public class GruposController : APIControllerBase<GruposEntity, GruposEntityDTO>
